@@ -1,5 +1,5 @@
-'use client';
-import { useEffect, useRef } from 'react';
+"use client";
+import { useEffect, useRef } from "react";
 
 interface CircleProgressProps {
   percent: number; // 0 ~ 100
@@ -14,8 +14,8 @@ export default function CircleProgress({
   percent,
   size = 160,
   strokeWidth = 10,
-  className = '',
-  gradient = ['#00a1ff', '#00ff95'],
+  className = "",
+  gradient = ["#00a1ff", "#00ff95"],
   duration = 1500,
 }: CircleProgressProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -23,7 +23,7 @@ export default function CircleProgress({
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const radius = (size - strokeWidth) / 2;
@@ -41,24 +41,43 @@ export default function CircleProgress({
       // 背景圓
       ctx.beginPath();
       ctx.arc(center, center, radius, 0, 2 * Math.PI);
-      ctx.strokeStyle = '#e5e7eb'; // Tailwind gray-200
+      ctx.strokeStyle = "#e5e7eb"; // Tailwind gray-200
       ctx.lineWidth = strokeWidth;
       ctx.stroke();
 
       // 外圈進度
       ctx.beginPath();
-      ctx.arc(center, center, radius, startAngle, startAngle + (2 * Math.PI * progress) / 100);
+      ctx.arc(
+        center,
+        center,
+        radius,
+        startAngle,
+        startAngle + (2 * Math.PI * progress) / 100
+      );
       ctx.strokeStyle = gradientFill;
       ctx.lineWidth = strokeWidth;
-      ctx.lineCap = 'round';
+      ctx.lineCap = "round";
       ctx.stroke();
 
+      // 中間文字背景
+      ctx.beginPath();
+      ctx.arc(center, center, size / 4, 0, 2 * Math.PI);
+      ctx.fillStyle = "#bbb";
+      ctx.fill();
+
       // 中間文字
-      ctx.font = `bold ${size / 4}px sans-serif`;
-      ctx.fillStyle = '#374151'; // Tailwind gray-700
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(`${Math.round(progress)}%`, center, center);
+      ctx.font = `bold ${size / 5}px sans-serif`;
+      ctx.fillStyle = "#374151"; // Tailwind gray-700
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(`${Math.round(progress)}`, center - 5, center);
+
+      // % 獨立定位
+      ctx.font = `bold ${size / 10}px sans-serif`;
+      ctx.fillStyle = "#374151";
+      ctx.textAlign = "right";
+      ctx.textBaseline = "bottom";
+      ctx.fillText("%", canvas.width - 45, canvas.height - 60);
     };
 
     const animate = (timestamp: number) => {

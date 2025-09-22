@@ -11,9 +11,10 @@ import {
   LineElement,
 } from "chart.js";
 import { Pie, Bar, Line } from "react-chartjs-2";
-import CircleProgress from '@/components/custom_progress_chart';
-
+import CircleProgress from "@/components/custom_progress_chart";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+
+import ItemTitle from "@/templates/ItemTitle";
 
 ChartJS.register(
   ArcElement,
@@ -52,8 +53,8 @@ const pieOptions = {
       top: 20,
       bottom: 20,
       left: 40,
-      right: 40
-    }
+      right: 40,
+    },
   },
 
   plugins: {
@@ -70,7 +71,10 @@ const pieOptions = {
         size: 12,
       },
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      formatter: (value: number, context: { chart: { data: { datasets: { data: any; }[]; }; }; }) => {
+      formatter: (
+        value: number,
+        context: { chart: { data: { datasets: { data: any }[] } } }
+      ) => {
         const dataArr = context.chart.data.datasets[0].data;
         const total = dataArr.reduce((a: number, b: number) => a + b, 0);
         const percent = ((value / total) * 100).toFixed(1) + "%";
@@ -131,23 +135,24 @@ const lineOptions = {
 };
 
 export default function Canvas_1x1({ type }: { type: string }) {
-
-
   if (type === "pie") {
     return (
       <>
+        <ItemTitle type="pie" />
         <Pie
           className="pie_custom"
           data={pieData}
           options={pieOptions}
           style={{ width: 175, height: 175 }}
         />
-        <div className="legend-container scrollbar-custom max-h-[90px] overflow-y-auto flex flex-row flex-wrap mx-auto pl-5 gap-1 x12:block x12:p-0">
+        <div className="legend-container scrollbar-custom max-h-[90px] overflow-y-auto flex flex-row flex-wrap mx-auto pl-5 gap-1 x15:block x15:p-0">
           {pieData.labels.map((label, index) => (
             <div key={index} className="legend-item whitespace-nowrap">
               <span
                 className="legend-color w-2 h-2 inline-block mr-2"
-                style={{ backgroundColor: pieData.datasets[0].backgroundColor[index] }}
+                style={{
+                  backgroundColor: pieData.datasets[0].backgroundColor[index],
+                }}
               ></span>
               {label}
             </div>
@@ -158,32 +163,41 @@ export default function Canvas_1x1({ type }: { type: string }) {
   }
   if (type === "bar") {
     return (
-      <Bar
-        data={barData}
-        style={{ width: 100, height: 100 }}
-        options={{ plugins: { legend: { display: false } } }}
-      />
+      <>
+        <ItemTitle type="bar" />
+        <Bar
+          data={barData}
+          style={{ width: 100, height: 100 }}
+          options={{ plugins: { legend: { display: false } } }}
+        />
+      </>
     );
   }
   if (type === "line") {
     return (
-      <Line
-        data={lineData}
-        options={lineOptions}
-        style={{ width: 100, height: 100 }}
-      />
+      <>
+        <ItemTitle type="line" />
+        <Line
+          data={lineData}
+          options={lineOptions}
+          style={{ width: 100, height: 100 }}
+        />
+      </>
     );
   }
   if (type === "CircleProgress") {
     return (
-      <CircleProgress
-        percent={75}
-        size={150}
-        strokeWidth={12}
-        gradient={['#3b82f6', '#10b981']}
-        className="shadow-lg rounded-full"
-        duration={500}
-      />
+      <>
+        <ItemTitle type="CircleProgress" />
+        <CircleProgress
+          percent={75}
+          size={150}
+          strokeWidth={12}
+          gradient={["#3b82f6", "#10b981"]}
+          className="shadow-lg rounded-full"
+          duration={500}
+        />
+      </>
     );
   }
 
