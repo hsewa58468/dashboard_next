@@ -70,9 +70,9 @@ const pieOptions = {
         weight: "bold" as const,
         size: 12,
       },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       formatter: (
         value: number,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         context: { chart: { data: { datasets: { data: any }[] } } }
       ) => {
         const dataArr = context.chart.data.datasets[0].data;
