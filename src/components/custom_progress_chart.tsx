@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 interface CircleProgressProps {
   percent: number; // 0 ~ 100
@@ -19,7 +19,6 @@ export default function CircleProgress({
   duration = 1500,
 }: CircleProgressProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [displayPercent, setDisplayPercent] = useState(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -29,8 +28,7 @@ export default function CircleProgress({
 
     const radius = (size - strokeWidth) / 2;
     const center = size / 2;
-    let startAngle = -Math.PI / 2; // 從正上方開始
-    let currentPercent = 0;
+    const startAngle = -Math.PI / 2; // 從正上方開始
     let startTime: number | null = null;
 
     const gradientFill = ctx.createLinearGradient(0, 0, size, size);
@@ -67,9 +65,7 @@ export default function CircleProgress({
       if (!startTime) startTime = timestamp;
       const elapsed = timestamp - startTime;
       const progress = Math.min((elapsed / duration) * percent, percent);
-      currentPercent = progress;
       draw(progress);
-      setDisplayPercent(progress);
       if (progress < percent) {
         requestAnimationFrame(animate);
       }

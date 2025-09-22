@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useState } from "react";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -70,9 +69,10 @@ const pieOptions = {
         weight: "bold" as const,
         size: 12,
       },
-      formatter: (value: any, context: any) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      formatter: (value: number, context: { chart: { data: { datasets: { data: any; }[]; }; }; }) => {
         const dataArr = context.chart.data.datasets[0].data;
-        const total = dataArr.reduce((a: any, b: any) => a + b, 0);
+        const total = dataArr.reduce((a: number, b: number) => a + b, 0);
         const percent = ((value / total) * 100).toFixed(1) + "%";
         return percent;
       },
