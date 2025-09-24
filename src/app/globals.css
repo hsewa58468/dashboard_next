@@ -25,11 +25,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.pie_custom {
-  width: 75% !important;
-  height: auto !important;
-}
-
 @theme {
   /* breakpoint */
   --breakpoint-x15: 1580px;

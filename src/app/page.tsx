@@ -1,5 +1,12 @@
 "use client";
 import Canvas_1x1 from "@/components/dashboard_canvas_1x1";
+import Canvas_1x2 from "@/components/dashboard_canvas_1x2";
+import MapComponent from "@/components/custom_map";
+import dynamic from "next/dynamic";
+
+const DynamicMap = dynamic(() => import("@/components/custom_map"), {
+  ssr: false, // 關鍵設定，關閉伺服器端渲染
+});
 import { useState } from "react";
 
 export default function Dashboard() {
@@ -61,14 +68,14 @@ export default function Dashboard() {
       ))}
 
       {/* 左下 1 個 1x2 區塊（橫跨 2 欄）*/}
-      <div className="col-start-1 col-span-2 row-start-3 bg-blue-200 rounded-lg flex items-center justify-center">
-        1x2
+      <div className="relative col-start-1 col-span-2 row-start-3 flex flex-row items-center justify-center bg-gray-200 overflow-hidden rounded-lg">
+        <Canvas_1x2 type="pie" />
       </div>
 
-      <div className="col-start-3 col-span-2 row-start-1 row-span-3 bg-blue-200 rounded-lg flex items-center justify-center">
-        2x3
+      <div className="relative col-start-3 col-span-2 row-start-1 row-span-3 bg-blue-200 rounded-lg flex items-center justify-center">
+        <DynamicMap />
       </div>
-      <div className="col-start-5 col-span-2 row-start-1 row-span-3 bg-blue-200 rounded-lg flex items-center justify-center">
+      <div className="relative col-start-5 col-span-2 row-start-1 row-span-3 bg-blue-200 rounded-lg flex items-center justify-center">
         2x3
       </div>
 

@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Chart as ChartJS,
   ArcElement,
@@ -9,10 +10,12 @@ import {
   BarElement,
   PointElement,
   LineElement,
+  Filler,
 } from "chart.js";
 import { Pie, Bar, Line } from "react-chartjs-2";
 import CircleProgress from "@/components/custom_progress_chart";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import Outlabels from "@energiency/chartjs-plugin-piechart-outlabels";
 
 import ItemTitle from "@/templates/ItemTitle";
 
@@ -25,61 +28,49 @@ ChartJS.register(
   BarElement,
   PointElement,
   LineElement,
-  ChartDataLabels
+  Filler,
+  ChartDataLabels,
+  Outlabels
 );
 
 const pieData = {
-  labels: ["蘋果", "香蕉", "葡萄", "蘋果", "香蕉", "蘋果", "香蕉"],
+  labels: ["蘋果", "香蕉", "葡萄", "荔枝", "芒果", "西瓜", "鳳梨", "橘子"],
   datasets: [
     {
-      data: [20, 15, 1, 15, 1, 15, 1],
+      data: [20, 15, 11, 13, 3, 9, 10, 11],
       backgroundColor: [
         "#3b82f6",
         "#ef4444",
         "#22c55e",
-        "#ef4444",
-        "#22c55e",
-        "#ef4444",
-        "#22c55e",
+        "#f59e0b",
+        "#6b7280",
+        "#ec4899",
+        "#10b981",
+        "#8b5cf6",
       ],
       borderWidth: 1,
+      hoverOffset: 15,
     },
   ],
 };
 
 const pieOptions = {
   layout: {
-    padding: {
-      top: 20,
-      bottom: 20,
-      left: 40,
-      right: 40,
-    },
+    padding: 10, // 將 padding 增加
   },
-
   plugins: {
     legend: {
       display: false,
     },
     datalabels: {
-      anchor: "end" as const,
-      align: "end" as const,
-      offset: 5,
-      color: "#000",
-      font: {
-        weight: "bold" as const,
-        size: 12,
-      },
-      formatter: (
-        value: number,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        context: { chart: { data: { datasets: { data: any }[] } } }
-      ) => {
-        const dataArr = context.chart.data.datasets[0].data;
-        const total = dataArr.reduce((a: number, b: number) => a + b, 0);
-        const percent = ((value / total) * 100).toFixed(1) + "%";
-        return percent;
-      },
+      display: false,
+    },
+    outlabels: {
+      text: "%p",
+      color: "black",
+      stretch: 5,
+      backgroundColor: "transparent",
+      lineWidth: 1,
     },
   },
 };
@@ -112,7 +103,7 @@ const lineData = {
       data: [10, 45, 30, 60, 35, 50],
       borderColor: "#3b82f6",
       backgroundColor: "#93c5fd",
-      fill: true,
+      fill: false,
       tension: 0.4,
       pointBackgroundColor: "#ef4444",
     },
@@ -121,15 +112,8 @@ const lineData = {
 
 const lineOptions = {
   plugins: {
-    datalabels: {
-      display: false,
-      anchor: "start" as const, // 標籤錨點（通常用 'end' 或 'start'）
-      align: "start" as const, // 標籤對齊方式（'end' 會在點上方）
-      color: "#33333346",
-      font: {
-        weight: "bold" as const,
-        size: 12,
-      },
+    legend: {
+      display: true,
     },
   },
 };
@@ -139,12 +123,9 @@ export default function Canvas_1x1({ type }: { type: string }) {
     return (
       <>
         <ItemTitle type="pie" />
-        <Pie
-          className="pie_custom"
-          data={pieData}
-          options={pieOptions}
-          style={{ width: 175, height: 175 }}
-        />
+        <div className="w-3/4 h-auto px-4">
+          <Pie data={pieData} options={pieOptions} />
+        </div>
         <div className="legend-container scrollbar-custom max-h-[90px] overflow-y-auto flex flex-row flex-wrap mx-auto pl-5 gap-1 x15:block x15:p-0">
           {pieData.labels.map((label, index) => (
             <div key={index} className="legend-item whitespace-nowrap">
@@ -161,6 +142,7 @@ export default function Canvas_1x1({ type }: { type: string }) {
       </>
     );
   }
+
   if (type === "bar") {
     return (
       <>
@@ -173,6 +155,7 @@ export default function Canvas_1x1({ type }: { type: string }) {
       </>
     );
   }
+
   if (type === "line") {
     return (
       <>
@@ -185,6 +168,7 @@ export default function Canvas_1x1({ type }: { type: string }) {
       </>
     );
   }
+
   if (type === "CircleProgress") {
     return (
       <>
