@@ -1,10 +1,11 @@
 "use client";
 
-import React, { use, useEffect } from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
-import CustomSelect from "./tools/custom_select";
+import ItemTitle from "@/components/tools/ItemTitle";
+import CustomSelect from "@/components/tools/custom_select";
 
 import "leaflet/dist/leaflet.css";
 
@@ -58,32 +59,35 @@ export default function MapComponent() {
   }, [choosedSelect]);
 
   return (
-    <div className="flex flex-col gap-4 h-full w-full p-4">
-      <div className="flex flex-row gap-2">
-        <CustomSelect
-          items={fixedLocations}
-          setSelectedFunction={setChoosedSelect}
-        />
-        <button
-          className="px-2 py-1 bg-blue-500 text-white rounded text-xs"
-          onClick={() => setCenterPOI(target)}
+    <>
+      <ItemTitle type="map" />
+      <div className="map_wrapper relative mt-[45px] flex flex-col gap-4 w-full p-4">
+        <div className="absolute top-[35px] left-[70px] z-10 flex flex-row gap-2">
+          <CustomSelect
+            items={fixedLocations}
+            setSelectedFunction={setChoosedSelect}
+          />
+          <button
+            className="px-2 py-1 bg-blue-500 text-white rounded text-xs"
+            onClick={() => setCenterPOI(target)}
+          >
+            <Image src="/icons/locate.png" alt="" width={24} height={24} />
+          </button>
+        </div>
+
+        <MapContainer
+          className="rounded-lg h-full w-full z-0"
+          center={target as LatLngExpression}
+          zoom={zoom}
         >
-          <Image src="/icons/locate.png" alt="" width={24} height={24} />
-        </button>
+          <TileLayer attribution={attribution} url={tileLayerUrl} />
+
+          <Marker position={target as LatLngExpression} icon={customIcon}>
+            <Popup>鼎漢國際顧問股份有限公司</Popup>
+          </Marker>
+          <MapMover position={centerPOI as LatLngExpression} />
+        </MapContainer>
       </div>
-
-      <MapContainer
-        className="rounded-lg h-full w-full z-0"
-        center={target as LatLngExpression}
-        zoom={zoom}
-      >
-        <TileLayer attribution={attribution} url={tileLayerUrl} />
-
-        <Marker position={target as LatLngExpression} icon={customIcon}>
-          <Popup>鼎漢國際顧問股份有限公司</Popup>
-        </Marker>
-        <MapMover position={centerPOI as LatLngExpression} />
-      </MapContainer>
-    </div>
+    </>
   );
 }
