@@ -1,11 +1,10 @@
 "use client";
+import dynamic from "next/dynamic";
 import Canvas_1x1 from "@/components/dashboard_canvas_1x1";
 import Canvas_1x2 from "@/components/dashboard_canvas_1x2";
-import MapComponent from "@/components/custom_map";
-import dynamic from "next/dynamic";
 
 const DynamicMap = dynamic(() => import("@/components/custom_map"), {
-  ssr: false, // 關鍵設定，關閉伺服器端渲染
+  ssr: false,
 });
 import { useState } from "react";
 
@@ -40,7 +39,7 @@ export default function Dashboard() {
       {choosedType.map((item, idx) => (
         <div
           key={idx}
-          className="relative flex flex-col items-center justify-center col-start-{1+idx%2} row-start-{1+Math.floor(idx/2)} bg-gray-200 overflow-hidden rounded-lg x15:flex-row "
+          className="relative pt-[45px] flex flex-col items-center justify-center col-start-{1+idx%2} row-start-{1+Math.floor(idx/2)} bg-gray-200 overflow-hidden rounded-lg x15:flex-row "
         >
           <div className="absolute top-2.5 right-2 flex flex-col items-end gap-1 z-1">
             <button
@@ -68,7 +67,7 @@ export default function Dashboard() {
       ))}
 
       {/* 左下 1 個 1x2 區塊（橫跨 2 欄）*/}
-      <div className="relative col-start-1 col-span-2 row-start-3 flex flex-row items-center justify-center bg-gray-200 overflow-hidden rounded-lg">
+      <div className="relative pt-[45px] col-start-1 col-span-2 row-start-3 flex flex-row items-center justify-center bg-gray-200 overflow-hidden rounded-lg">
         <Canvas_1x2 type="pie" />
       </div>
 
