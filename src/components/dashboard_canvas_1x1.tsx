@@ -17,7 +17,7 @@ import CircleProgress from "@/components/custom_progress_chart";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import Outlabels from "@energiency/chartjs-plugin-piechart-outlabels";
 
-import ItemTitle from "@/templates/ItemTitle";
+import ItemTitle from "@/components/tools/ItemTitle";
 
 ChartJS.register(
   ArcElement,
