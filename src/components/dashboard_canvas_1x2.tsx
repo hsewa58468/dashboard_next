@@ -17,7 +17,7 @@ const pieData = {
   labels: ["蘋果", "香蕉", "葡萄", "荔枝", "芒果", "西瓜", "鳳梨", "橘子"],
   datasets: [
     {
-      radius: "60%",
+      radius: "100%",
       data: [20, 15, 11, 13, 3, 9, 10, 11],
       backgroundColor: [
         "#3b82f6",
