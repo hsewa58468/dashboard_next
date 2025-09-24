@@ -25,19 +25,18 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.pie_custom {
-  width: 75% !important;
-  height: auto !important;
-}
-
 @theme {
-  --breakpoint-x12: 1280px;
+  /* breakpoint */
+  --breakpoint-x15: 1580px;
+  /* color */
+  --color-blue-300: #5c89b1;
+  --color-gray-300: #d4d8d9;
 }
 
 @layer utilities {
   .scrollbar-custom {
     scrollbar-width: thin;
-    scrollbar-color: #888 transparent;
+    scrollbar-color: #a7b8c7 transparent;
     scrollbar-gutter: stable;
   }
 
@@ -45,4 +44,3 @@ body {
     background-color: #555;
   }
 }
-
