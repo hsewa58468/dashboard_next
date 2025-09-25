@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import {
   Chart as ChartJS,
   ArcElement,
@@ -17,7 +18,7 @@ import CircleProgress from "@/components/custom_progress_chart";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import Outlabels from "@energiency/chartjs-plugin-piechart-outlabels";
 
-import ItemTitle from "@/components/tools/ItemTitle";
+import ItemTitle from "@/components/tools/Item_title";
 
 ChartJS.register(
   ArcElement,
@@ -33,6 +34,7 @@ ChartJS.register(
   Outlabels
 );
 
+/* chartData */
 const pieData = {
   labels: ["蘋果", "香蕉", "葡萄", "荔枝", "芒果", "西瓜", "鳳梨", "橘子"],
   datasets: [
@@ -54,28 +56,6 @@ const pieData = {
     },
   ],
 };
-
-const pieOptions = {
-  layout: {
-    padding: 10, // 將 padding 增加
-  },
-  plugins: {
-    legend: {
-      display: false,
-    },
-    datalabels: {
-      display: false,
-    },
-    outlabels: {
-      text: "%p",
-      color: "black",
-      stretch: 5,
-      backgroundColor: "transparent",
-      lineWidth: 1,
-    },
-  },
-};
-
 const barData = {
   labels: ["A", "B", "C", "D"],
   datasets: [
@@ -86,7 +66,6 @@ const barData = {
     },
   ],
 };
-
 const lineData = {
   labels: ["1月", "2月", "3月", "4月", "5月", "6月"],
   datasets: [
@@ -111,6 +90,27 @@ const lineData = {
   ],
 };
 
+/* chartOption */
+const pieOptions = {
+  layout: {
+    padding: 10, // 將 padding 增加
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+    datalabels: {
+      display: false,
+    },
+    outlabels: {
+      text: "%p",
+      color: "black",
+      stretch: 5,
+      backgroundColor: "transparent",
+      lineWidth: 1,
+    },
+  },
+};
 const lineOptions = {
   plugins: {
     legend: {
@@ -119,72 +119,83 @@ const lineOptions = {
   },
 };
 
-export default function Canvas_1x1({ type }: { type: string }) {
-  if (type === "pie") {
-    return (
-      <>
-        <ItemTitle type="pie" />
-        <div className="w-3/4 h-auto px-4">
-          <Pie data={pieData} options={pieOptions} />
-        </div>
-        <div className="legend-container scrollbar-custom max-h-[90px] overflow-y-auto flex flex-row flex-wrap mx-auto pl-5 gap-1 x15:block x15:p-0">
-          {pieData.labels.map((label, index) => (
-            <div key={index} className="legend-item whitespace-nowrap">
-              <span
-                className="legend-color w-2 h-2 inline-block mr-2"
-                style={{
-                  backgroundColor: pieData.datasets[0].backgroundColor[index],
-                }}
-              ></span>
-              {label}
-            </div>
-          ))}
-        </div>
-      </>
-    );
-  }
-
-  if (type === "bar") {
-    return (
-      <>
-        <ItemTitle type="bar" />
-        <Bar
-          data={barData}
-          style={{ width: 100, height: 100 }}
-          options={{ plugins: { legend: { display: false } } }}
-        />
-      </>
-    );
-  }
-
-  if (type === "line") {
-    return (
-      <>
-        <ItemTitle type="line" />
-        <Line
-          data={lineData}
-          options={lineOptions}
-          style={{ width: 100, height: 100 }}
-        />
-      </>
-    );
-  }
-
-  if (type === "CircleProgress") {
-    return (
-      <>
-        <ItemTitle type="CircleProgress" />
-        <CircleProgress
-          percent={75}
-          size={150}
-          strokeWidth={12}
-          gradient={["#3b82f6", "#10b981"]}
-          className="shadow-lg rounded-full"
-          duration={500}
-        />
-      </>
-    );
-  }
-
-  return null;
+// chartComponents
+function pieChart() {
+  return (
+    <>
+      <ItemTitle type="pie" />
+      <div className="w-4/5 h-auto px-4">
+        <Pie data={pieData} options={pieOptions} />
+      </div>
+      {/* <div className="legend-container scrollbar-custom max-h-[90px] overflow-y-auto flex flex-row flex-wrap mx-auto pl-5 gap-1 x15:block x15:p-0">
+        {pieData.labels.map((label, index) => (
+          <div key={index} className="legend-item whitespace-nowrap">
+            <span
+              className="legend-color w-2 h-2 inline-block mr-2"
+              style={{
+                backgroundColor: pieData.datasets[0].backgroundColor[index],
+              }}
+            ></span>
+            {label}
+          </div>
+        ))}
+      </div> */}
+    </>
+  );
 }
+function barChart() {
+  return (
+    <>
+      <ItemTitle type="bar" />
+      <Bar
+        data={barData}
+        style={{ width: 100, height: 100 }}
+        options={{ plugins: { legend: { display: false } } }}
+      />
+    </>
+  );
+}
+function lineChart() {
+  return (
+    <>
+      <ItemTitle type="line" />
+      <Line
+        data={lineData}
+        options={lineOptions}
+        style={{ width: 100, height: 100 }}
+      />
+    </>
+  );
+}
+function circleProgressChart() {
+  return (
+    <>
+      <ItemTitle type="CircleProgress" />
+      <CircleProgress
+        percent={75}
+        size={150}
+        strokeWidth={12}
+        gradient={["#3b82f6", "#10b981"]}
+        className="shadow-lg rounded-full"
+        duration={500}
+      />
+    </>
+  );
+}
+
+function Canvas_1x1({ type }: { type: string }) {
+  switch (type) {
+    case "pie":
+      return pieChart();
+    case "bar":
+      return barChart();
+    case "line":
+      return lineChart();
+    case "CircleProgress":
+      return circleProgressChart();
+    default:
+      return null;
+  }
+}
+
+export default React.memo(Canvas_1x1);

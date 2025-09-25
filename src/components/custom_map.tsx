@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
-import ItemTitle from "@/components/tools/ItemTitle";
+import ItemTitle from "@/components/tools/Item_title";
 import CustomSelect from "@/components/tools/custom_select";
 
 import "leaflet/dist/leaflet.css";
@@ -30,7 +30,7 @@ const customIcon = L.icon({
 
 const fixedLocations: Location[] = [
   { name: "鼎漢-台北總公司", coords: [25.047735, 121.577671] },
-  { name: "鼎漢-松二辦公室", coords: [25.053862, 121.532901] },
+  { name: "鼎漢-松二辦公室", coords: [25.047448, 121.577644] },
   { name: "鼎漢-台中分公司", coords: [24.162379, 120.669245] },
   { name: "鼎漢-台南分公司", coords: [22.996921, 120.172551] },
   { name: "鼎漢-高雄分公司", coords: [22.642038, 120.303074] },
@@ -47,21 +47,13 @@ function MapMover({ position }: { position: LatLngExpression }) {
 
 export default function MapComponent() {
   const [choosedSelect, setChoosedSelect] = React.useState(0); // 選單目前選項
-  const [target, setTarget] = React.useState<number[] | null[]>(position); // 目前選項經緯度
   const [centerPOI, setCenterPOI] = React.useState<number[] | null[]>(position); // 地圖中心位置
-
-  function changeSelectPlace(targetIndex: number) {
-    setTarget(fixedLocations[targetIndex].coords);
-  }
-
-  useEffect(() => {
-    changeSelectPlace(choosedSelect);
-  }, [choosedSelect]);
+  const target = fixedLocations[choosedSelect].coords;
 
   return (
     <>
       <ItemTitle type="map" />
-      <div className="map_wrapper relative mt-[45px] flex flex-col gap-4 w-full p-4">
+      <div className="map_wrapper relative h-full flex flex-col gap-4 w-full p-4">
         <div className="absolute top-[35px] left-[70px] z-10 flex flex-row gap-2">
           <CustomSelect
             items={fixedLocations}
