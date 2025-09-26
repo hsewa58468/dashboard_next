@@ -9,7 +9,7 @@ import {
 } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import Outlabels from "@energiency/chartjs-plugin-piechart-outlabels";
-import ItemTitle from "@/components/tools/ItemTitle";
+import ItemTitle from "@/components/tools/Item_title";
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, Outlabels);
 
@@ -39,20 +39,23 @@ const pieOptions = {
   responsive: true,
   maintainAspectRatio: false,
   layout: {
-    padding: {
-      top: 30,
-      bottom: 30,
-      left: 30,
-      right: 30,
-    },
+    padding: 20,
   },
 
   plugins: {
     legend: {
       display: true,
       position: "right" as const,
-      bottom: 0,
-      right: 0,
+      labels: {
+        usePointStyle: true,
+        pointStyle: "circle",
+        boxWidth: 5,
+        color: "#444",
+        font: {
+          size: 10, // 字體大小
+        },
+        padding: 7,
+      },
     },
     datalabels: {
       display: false,
@@ -72,7 +75,7 @@ export default function Canvas_1x2({ type }: { type: string }) {
     return (
       <>
         <ItemTitle type="pie" />
-        <div className="w-3/4 h-full mx-auto">
+        <div className="w-full h-full mx-auto">
           <Pie data={pieData} options={pieOptions} />
         </div>
       </>

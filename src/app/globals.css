@@ -25,12 +25,29 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.main_wrapper {
-  height: calc(100vh - 95px);
+.sideBar_wrapper {
+  .legend-container {
+    display: none;
+  }
 }
 
-.map_wrapper {
-  height: calc(100% - 45px);
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.card-layout {
+  @apply relative h-auto pt-[45px] flex flex-col items-center justify-center rounded-lg overflow-hidden;
+}
+.animate-300 {
+  @apply transition-all duration-300;
+}
+.space-switch-btn {
+  @apply absolute top-2 right-2 px-2 py-1 cursor-pointer z-1;
 }
 
 @theme {

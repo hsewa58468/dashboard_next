@@ -70,7 +70,7 @@ export default function CustomSelect({
 
       {/* 客製化選項 */}
       <div
-        className={`absolute top-full w-full mt-2 bg-white rounded-lg shadow-md transition-all duration-300 z-10 ${
+        className={`absolute top-full w-full mt-2 bg-white rounded-lg shadow-md animate-300 z-10 ${
           isOpen ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
       >
