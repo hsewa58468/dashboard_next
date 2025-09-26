@@ -40,7 +40,9 @@ const fixedLocations: Location[] = [
 function MapMover({ position }: { position: LatLngExpression }) {
   const map = useMap();
   useEffect(() => {
-    map.flyTo(position, zoom);
+    if (map) {
+      map.flyTo(position, zoom);
+    }
   }, [map, position]);
   return null;
 }

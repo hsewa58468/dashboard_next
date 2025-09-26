@@ -1,21 +1,14 @@
 import { create } from "zustand";
 
-// 定義 Store 的型別 (TypeScript)
-export interface Template {
-  type: string;
-  editing: boolean;
-}
-
 // 定義整個 Store 的狀態
 interface DashboardState {
   allChartTypes: { "1x1": string[]; "1x2": string[] };
   spaces: {
-    "1x1": Template[];
-    "1x2": Template[];
+    "1x1": string[];
+    "1x2": string[];
   };
-  editingSpace: { name: "1x1" | "1x2" | ""; idx: number };
   setChoosedType: (space: "1x1" | "1x2", idx: number, choosed: string) => void;
-  setEditingSpace: (name: "1x1" | "1x2" | "", idx: number) => void;
+  setRevertSpace: (spaces: { "1x1": string[]; "1x2": string[] }) => void;
 }
 // 使用 create 函數建立一個 Store
 const useStore = create<DashboardState>((set) => ({
@@ -25,38 +18,27 @@ const useStore = create<DashboardState>((set) => ({
     "1x2": ["pie"],
   },
   spaces: {
-    "1x1": [
-      { type: "pie", editing: false },
-      { type: "bar", editing: false },
-      { type: "line", editing: false },
-      { type: "CircleProgress", editing: false },
-    ],
-    "1x2": [
-      { type: "pie", editing: false },
-      { type: "bar", editing: false },
-      { type: "line", editing: false },
-    ],
+    "1x1": ["pie", "bar", "line", "CircleProgress"],
+    "1x2": ["pie"],
   },
-  editingSpace: { name: "", idx: 0 },
   // 動作 (actions)
+  // 抽換
   setChoosedType: (space, idx, choosed) =>
     set((state) => {
-      // 複製當前的 templates 陣列
-      const currentTemplates = [...state.spaces[space]];
-      // 在指定索引處替換為新的值
-      currentTemplates[idx].type = choosed;
+      const updatedArray = [...state.spaces[space]];
+      updatedArray[idx] = choosed;
 
-      // 返回一個新的 spaces 物件，並將更新後的陣列賦值給對應的 space
       return {
         spaces: {
           ...state.spaces,
-          [space]: currentTemplates,
+          [space]: updatedArray,
         },
       };
     }),
-  setEditingSpace: (name, idx) =>
+  // 取消 回復原狀態
+  setRevertSpace: (prev) =>
     set({
-      editingSpace: { name, idx },
+      spaces: prev,
     }),
 }));
 

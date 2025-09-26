@@ -8,7 +8,7 @@ import useStore from "@/store/useShowStore";
 interface ItemProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  layout: "1x1" | "1x2" | "";
+  layout: string;
   position: number;
   chartTypes: {
     "1x1": string[];
