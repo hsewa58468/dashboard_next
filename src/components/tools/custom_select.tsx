@@ -24,7 +24,7 @@ export default function CustomSelect({
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      // 如果點擊的目標不在選單容器內，就關閉選單
+      // 點選空白區塊關閉選單
       if (
         selectRef.current &&
         !selectRef.current.contains(event.target as Node)
@@ -33,19 +33,17 @@ export default function CustomSelect({
       }
     }
 
-    // 當選單打開時，添加事件監聽器
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
-    // 在元件卸載或選單關閉時，移除事件監聽器
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isOpen]); // 只有在 isOpen 狀態改變時才重新運行
+  }, [isOpen]);
 
   return (
-    <div ref={selectRef} className="relative w-48">
+    <div ref={selectRef} className="relative w-48 text-black">
       {/* 客製化外框 */}
       <button
         className="relative flex items-center justify-between p-2.5 w-full bg-white rounded-lg shadow-md cursor-pointer"
@@ -88,7 +86,7 @@ export default function CustomSelect({
         ))}
       </div>
 
-      {/* 這是隱藏的原生 select */}
+      {/* 隱藏的原生 select */}
       <select
         onChange={(e) => setSelectedValue(e.target.value)}
         className="hidden"

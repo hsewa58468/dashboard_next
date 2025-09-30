@@ -3,17 +3,13 @@ import Image from "next/image";
 import Canvas_1x1 from "@/components/dashboard_canvas_1x1";
 import Canvas_1x2 from "@/components/dashboard_canvas_1x1";
 
-import useStore from "@/store/useShowStore";
+import chartStore from "@/store/useChartStore";
 
 interface ItemProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
   layout: string;
   position: number;
-  chartTypes: {
-    "1x1": string[];
-    "1x2": string[];
-  };
 }
 
 export default function SideBar({
@@ -21,10 +17,9 @@ export default function SideBar({
   setIsOpen,
   layout,
   position,
-  chartTypes,
 }: ItemProps) {
-  const dashnoardStore = useStore();
-  const { setChoosedType } = dashnoardStore;
+  const dashnoardStore = chartStore();
+  const { allChartTypes, setChoosedType } = dashnoardStore;
 
   return (
     <div
@@ -45,12 +40,11 @@ export default function SideBar({
       </div>
       <div className="sideBar_wrapper h-[calc(100%-50px)] flex flex-col gap-4 overflow-y-auto no-scrollbar p-4">
         {layout === "1x1" &&
-          chartTypes[layout]?.map((type, index) => (
+          allChartTypes[layout]?.map((type, index) => (
             <button
               key={index}
               className="sideBar_item cursor-pointer"
               onClick={() => {
-                console.log("check");
                 setChoosedType("1x1", position, type);
               }}
             >
@@ -60,12 +54,11 @@ export default function SideBar({
             </button>
           ))}
         {layout === "1x2" &&
-          chartTypes[layout]?.map((type, index) => (
+          allChartTypes[layout]?.map((type, index) => (
             <button
               key={index}
               className="sideBar_item cursor-pointer"
               onClick={() => {
-                console.log("check");
                 setChoosedType("1x1", 0, type);
               }}
             >

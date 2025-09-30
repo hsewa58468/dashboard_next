@@ -74,7 +74,7 @@ export default function Canvas_1x2({ type }: { type: string }) {
   if (type === "pie") {
     return (
       <>
-        <ItemTitle type="pie" />
+        <ItemTitle typeName="pie" />
         <div className="w-full h-full mx-auto">
           <Pie data={pieData} options={pieOptions} />
         </div>

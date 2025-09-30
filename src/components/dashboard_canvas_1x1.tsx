@@ -123,7 +123,7 @@ const lineOptions = {
 function pieChart() {
   return (
     <>
-      <ItemTitle type="pie" />
+      <ItemTitle typeName="pie" />
       <div className="w-4/5 h-auto px-4">
         <Pie data={pieData} options={pieOptions} />
       </div>
@@ -146,7 +146,7 @@ function pieChart() {
 function barChart() {
   return (
     <>
-      <ItemTitle type="bar" />
+      <ItemTitle typeName="bar" />
       <Bar
         data={barData}
         style={{ width: 100, height: 100 }}
@@ -158,7 +158,7 @@ function barChart() {
 function lineChart() {
   return (
     <>
-      <ItemTitle type="line" />
+      <ItemTitle typeName="line" />
       <Line
         data={lineData}
         options={lineOptions}
@@ -170,13 +170,13 @@ function lineChart() {
 function circleProgressChart() {
   return (
     <>
-      <ItemTitle type="CircleProgress" />
+      <ItemTitle typeName="CircleProgress" />
       <CircleProgress
         percent={75}
         size={150}
         strokeWidth={12}
         gradient={["#3b82f6", "#10b981"]}
-        className="shadow-lg rounded-full"
+        className="shadow-lg rounded-full max-w-full"
         duration={500}
       />
     </>

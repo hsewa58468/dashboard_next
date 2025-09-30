@@ -54,7 +54,7 @@ export default function MapComponent() {
 
   return (
     <>
-      <ItemTitle type="map" />
+      <ItemTitle typeName="map" />
       <div className="map_wrapper relative h-full flex flex-col gap-4 w-full p-4">
         <div className="absolute top-[35px] left-[70px] z-10 flex flex-row gap-2">
           <CustomSelect

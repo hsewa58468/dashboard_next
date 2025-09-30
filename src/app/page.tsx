@@ -5,8 +5,15 @@ import Image from "next/image";
 import Canvas_1x1 from "@/components/dashboard_canvas_1x1";
 import Canvas_1x2 from "@/components/dashboard_canvas_1x2";
 import SideBar from "@/components/tools/sidebar";
-import useStore from "@/store/useShowStore";
+import Edit_ToolBtn from "@/components/tools/edit_dropdown_switch";
+
+import chartStore from "@/store/useChartStore";
+import showStore from "@/store/useShowStore";
+
 const DynamicMap = dynamic(() => import("@/components/custom_map"), {
+  ssr: false,
+});
+const DynamicLightbox = dynamic(() => import("@/components/tools/lightbox"), {
   ssr: false,
 });
 
@@ -17,10 +24,11 @@ interface State {
 
 export default function Dashboard() {
   const [showEditBtn, setShowEditBtn] = useState(false);
-  const [sideBarOpen, setSideBarOpen] = useState(false);
   const [editingSpace, setEditingSpace] = useState({ name: "", idx: 0 });
-  const dashnoardStore = useStore();
-  const { allChartTypes, spaces, setRevertSpace } = dashnoardStore;
+  const [sideBarOpen, setSideBarOpen] = useState(false);
+  const { spaces, setRevertSpace } = chartStore();
+  const { lightBoxShow } = showStore();
+
   const [prevStore, setPrevStore] = useState<State>(spaces);
 
   // 啟動編輯時先儲存舊狀態
@@ -31,23 +39,20 @@ export default function Dashboard() {
   }, [showEditBtn]);
 
   return (
-    <main className="main_wrapper h-[calc(100vh-95px)] grid grid-cols-6 grid-rows-3 gap-4 p-8">
+    <main className="main_wrapper h-[calc(100vh-95px)] grid grid-cols-6 grid-rows-3 gap-4 p-8 text-black">
       {spaces["1x1"].map((item, idx) => (
         <div
           key={idx}
-          className="card-layout col-start-{1+idx%2} row-start-{1+Math.floor(idx/2)} bg-gray-200 "
+          className="relative card-layout col-start-{1+idx%2} row-start-{1+Math.floor(idx/2)} bg-gray-200 "
         >
-          {showEditBtn && (
-            <button
-              className="space-switch-btn"
-              onClick={() => {
-                setEditingSpace({ name: "1x1", idx });
-                setSideBarOpen(true);
-              }}
-            >
-              <Image src="/icons/change.png" alt="" width={24} height={24} />
-            </button>
-          )}
+          <Edit_ToolBtn
+            showEditBtn={showEditBtn}
+            editEvent={() => {
+              setEditingSpace({ name: "1x1", idx });
+              setSideBarOpen(true);
+            }}
+            callName={item}
+          />
           <Canvas_1x1 type={item} />
         </div>
       ))}
@@ -99,11 +104,13 @@ export default function Dashboard() {
       </div>
       <div
         className={`overlay-container fixed top-0 left-0 w-full h-screen bg-[#00000073] animate-300 z-10 ${
-          sideBarOpen ? "opacity-100 visible" : "opacity-0 invisible"
+          sideBarOpen || lightBoxShow
+            ? "opacity-100 visible"
+            : "opacity-0 invisible"
         }`}
         onClick={(e) => {
           e.stopPropagation();
-          setSideBarOpen(false);
+          sideBarOpen && setSideBarOpen(false);
         }}
       >
         <SideBar
@@ -111,8 +118,9 @@ export default function Dashboard() {
           setIsOpen={setSideBarOpen}
           layout={editingSpace.name}
           position={editingSpace.idx}
-          chartTypes={allChartTypes}
         />
+
+        <DynamicLightbox />
       </div>
     </main>
   );
