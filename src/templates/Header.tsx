@@ -1,24 +1,30 @@
-import React from 'react';
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 interface HeaderProps {
-    title?: string;
+  title?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ title = 'Dashboard' }) => (
-    <header
-        style={{
-            background: '#222',
-            color: '#fff',
-            padding: '1rem 2rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-        }}
-    >
-        <h1 style={{ margin: 0, fontSize: '1.5rem' }}>{title}</h1>
-        {/* Add navigation or user info here if needed */}
-    </header>
+const Header: React.FC<HeaderProps> = ({ title = "Dashboard" }) => (
+  <header className="shadow">
+    <nav className="bg-blue-300 p-4 shadow-md">
+      <div className="container mx-auto flex justify-between items-center">
+        <Link href="/" className="flex text-white text-xl font-bold gap-2">
+          <Image src="/icons/deco.png" alt="" width={24} height={24} />
+          Next 公版
+        </Link>
+        <div className="flex space-x-4">
+          <Link href="/" className="text-white hover:text-blue-100">
+            首頁
+          </Link>
+          <Link href="/dashboard" className="text-white hover:text-blue-100">
+            儀表板
+          </Link>
+        </div>
+      </div>
+    </nav>
+  </header>
 );
 
 export default Header;

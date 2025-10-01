@@ -4,22 +4,16 @@ import Canvas_1x1 from "@/components/dashboard_canvas_1x1";
 import Canvas_1x2 from "@/components/dashboard_canvas_1x1";
 
 import chartStore from "@/store/useChartStore";
+import showStore from "@/store/useShowStore";
 
 interface ItemProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  layout: string;
-  position: number;
 }
 
-export default function SideBar({
-  isOpen,
-  setIsOpen,
-  layout,
-  position,
-}: ItemProps) {
-  const dashnoardStore = chartStore();
-  const { allChartTypes, setChoosedType } = dashnoardStore;
+export default function SideBar({ isOpen, setIsOpen }: ItemProps) {
+  const { allChartTypes, setChoosedType } = chartStore();
+  const { triggerSpace } = showStore();
 
   return (
     <div
@@ -39,13 +33,13 @@ export default function SideBar({
         </button>
       </div>
       <div className="sideBar_wrapper h-[calc(100%-50px)] flex flex-col gap-4 overflow-y-auto no-scrollbar p-4">
-        {layout === "1x1" &&
-          allChartTypes[layout]?.map((type, index) => (
+        {triggerSpace.space === "1x1" &&
+          allChartTypes[triggerSpace.space]?.map((type, index) => (
             <button
               key={index}
               className="sideBar_item cursor-pointer"
               onClick={() => {
-                setChoosedType("1x1", position, type);
+                setChoosedType("1x1", triggerSpace.idx, type);
               }}
             >
               <div className="card-layout min-h-[300px] shadow-lg pointer-events-none">
@@ -53,13 +47,13 @@ export default function SideBar({
               </div>
             </button>
           ))}
-        {layout === "1x2" &&
-          allChartTypes[layout]?.map((type, index) => (
+        {triggerSpace.space === "1x2" &&
+          allChartTypes[triggerSpace.space]?.map((type, index) => (
             <button
               key={index}
               className="sideBar_item cursor-pointer"
               onClick={() => {
-                setChoosedType("1x1", 0, type);
+                setChoosedType("1x1", triggerSpace.idx, type);
               }}
             >
               <div className="card-layout min-h-[300px] shadow-lg pointer-events-none">

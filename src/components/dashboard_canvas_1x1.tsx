@@ -39,7 +39,7 @@ const pieData = {
   labels: ["蘋果", "香蕉", "葡萄", "荔枝", "芒果", "西瓜", "鳳梨", "橘子"],
   datasets: [
     {
-      radius: "80%",
+      radius: "70%",
       data: [20, 15, 11, 13, 3, 9, 10, 11],
       backgroundColor: [
         "#3b82f6",
@@ -124,7 +124,7 @@ function pieChart() {
   return (
     <>
       <ItemTitle typeName="pie" />
-      <div className="w-4/5 h-auto px-4">
+      <div className="w-4/5 h-auto">
         <Pie data={pieData} options={pieOptions} />
       </div>
       {/* <div className="legend-container scrollbar-custom max-h-[90px] overflow-y-auto flex flex-row flex-wrap mx-auto pl-5 gap-1 x15:block x15:p-0">

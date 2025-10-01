@@ -15,7 +15,7 @@ interface Location {
 }
 
 // 設定地圖的初始設定
-const position: number[] = [25.047735, 121.577671];
+const position: number[] = [25.011205, 121.537123];
 const zoom = 16;
 const attribution = "來源：國土測繪中心";
 const tileLayerUrl =
@@ -29,7 +29,7 @@ const customIcon = L.icon({
 });
 
 const fixedLocations: Location[] = [
-  { name: "鼎漢-台北總公司", coords: [25.047735, 121.577671] },
+  { name: "鼎漢-台北總公司", coords: [25.011205, 121.537123] },
   { name: "鼎漢-松二辦公室", coords: [25.047448, 121.577644] },
   { name: "鼎漢-台中分公司", coords: [24.162379, 120.669245] },
   { name: "鼎漢-台南分公司", coords: [22.996921, 120.172551] },

@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import showStore from "@/store/useShowStore";
@@ -5,19 +6,20 @@ import showStore from "@/store/useShowStore";
 interface ItemProps {
   showEditBtn: boolean;
   editEvent?: () => void;
-  callName?: string; // 觸發的儀錶板名稱
 }
 
 interface DropProps {
-  callName?: string;
+  setDropOpen: (isOpen: boolean) => void;
 }
 
-function Dropdown({ callName }: DropProps) {
-  const { setTriggerName, setLightBoxShow, setWhichBtnClick } = showStore();
+function Dropdown({ setDropOpen }: DropProps) {
+  const { setLightBoxShow, setWhichBtnClick } = showStore();
   function handleClick(clickBtn: string) {
-    setTriggerName(callName);
-    setLightBoxShow(true);
     setWhichBtnClick(clickBtn);
+    setDropOpen(false);
+    if (clickBtn !== "download") {
+      setLightBoxShow(true);
+    }
   }
 
   return (
@@ -45,7 +47,12 @@ function Dropdown({ callName }: DropProps) {
         </button>
       </li>
       <li>
-        <button className="my-1 flex gap-1 cursor-pointer w-max">
+        <button
+          className="my-1 flex gap-1 cursor-pointer w-max"
+          onClick={() => {
+            handleClick("download");
+          }}
+        >
           <Image src="/icons/download.svg" alt="" width={14} height={14} />
           圖片下載
         </button>
@@ -54,13 +61,10 @@ function Dropdown({ callName }: DropProps) {
   );
 }
 
-export default function Edit_ToolBtn({
-  showEditBtn,
-  editEvent,
-  callName,
-}: ItemProps) {
+export default function Edit_ToolBtn({ showEditBtn, editEvent }: ItemProps) {
   const [dropOpen, setDropOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { setSideBarShow } = showStore();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -82,7 +86,13 @@ export default function Edit_ToolBtn({
   }, [dropdownRef]); // 依賴於 ref，確保正確引用
 
   return showEditBtn ? (
-    <button className="space-switch-btn" onClick={editEvent}>
+    <button
+      className="space-switch-btn"
+      onClick={() => {
+        setSideBarShow(true);
+        editEvent && editEvent();
+      }}
+    >
       <Image src="/icons/change.png" alt="" width={24} height={24} />
     </button>
   ) : (
@@ -91,6 +101,7 @@ export default function Edit_ToolBtn({
         <button
           className="space-switch-btn"
           onClick={() => {
+            editEvent && editEvent();
             setDropOpen(!dropOpen);
           }}
         >
@@ -103,7 +114,7 @@ export default function Edit_ToolBtn({
           />
         </button>
         <div className="absolute top-[45px] left-4/5 w-auto text-xs bg-white border border-gray-200 rounded-md shadow-lg z-10">
-          {dropOpen && <Dropdown callName={callName} />}
+          {dropOpen && <Dropdown setDropOpen={setDropOpen} />}
         </div>
       </div>
     </>

@@ -1,19 +1,31 @@
 import { create } from "zustand";
+import { useRef, RefObject } from "react";
 
+interface I_triggerSpace {
+  space: string;
+  idx: number;
+  name: string;
+}
 interface I_ShowState {
+  sideBarShow: boolean;
+  setSideBarShow: (newState: boolean) => void;
   lightBoxShow: boolean;
   setLightBoxShow: (newState: boolean) => void;
-  triggerName: string;
-  setTriggerName: (chartName?: string) => void;
+  triggerSpace: I_triggerSpace;
+  setTriggerSpace: (nowSpace?: I_triggerSpace) => void;
   whichBtnClick: string;
   setWhichBtnClick: (btnName?: string) => void;
   chartHint: { [key: string]: string };
+  printItemRef: RefObject<HTMLDivElement> | null;
+  setPrintItemRef: (el: HTMLDivElement) => void;
 }
 const useStore = create<I_ShowState>((set) => ({
+  sideBarShow: false,
+  setSideBarShow: (newState) => set({ sideBarShow: newState }),
   lightBoxShow: false,
   setLightBoxShow: (newState) => set({ lightBoxShow: newState }),
-  triggerName: "",
-  setTriggerName: (chartName) => set({ triggerName: chartName }),
+  triggerSpace: { space: "", idx: 0, name: "" },
+  setTriggerSpace: (nowSpace) => set({ triggerSpace: nowSpace }),
   whichBtnClick: "",
   setWhichBtnClick: (btnName) => set({ whichBtnClick: btnName }),
   chartHint: {
@@ -23,6 +35,8 @@ const useStore = create<I_ShowState>((set) => ({
     CircleProgress:
       "資料說明：<br>達成率圖<br>1.資料更新頻率：每分鐘更新<br>2.資料來源：",
   },
+  printItemRef: null,
+  setPrintItemRef: (el) => set({ printItemRef: { current: el } }),
 }));
 
 export default useStore;

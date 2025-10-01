@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import DOMPurify from "dompurify";
 import Canvas_1x1 from "@/components/dashboard_canvas_1x1";
-import Canvas_1x2 from "@/components/dashboard_canvas_1x1";
+import Canvas_1x2 from "@/components/dashboard_canvas_1x2";
 
 import showStore from "@/store/useShowStore";
 
@@ -16,13 +16,13 @@ export default function LightBox({ title, children }: ItemProps) {
   const lightboxRef = useRef<HTMLDivElement>(null);
   const {
     lightBoxShow,
-    triggerName,
-    whichBtnClick,
-    chartHint,
     setLightBoxShow,
+    triggerSpace,
+    whichBtnClick,
     setWhichBtnClick,
+    chartHint,
   } = showStore();
-  const safeHtml = DOMPurify.sanitize(chartHint[triggerName] || "");
+  const safeHtml = DOMPurify.sanitize(chartHint[triggerSpace.name] || "");
 
   function handleCloseBox() {
     setLightBoxShow(false);
@@ -76,11 +76,20 @@ export default function LightBox({ title, children }: ItemProps) {
         <div
           className={`${
             whichBtnClick === "magnifier"
-              ? "card-layout min-h-[300px] shadow-lg "
+              ? "card-layout min-h-[300px] shadow-lg"
               : ""
           }`}
         >
-          {whichBtnClick === "magnifier" && <Canvas_1x1 type={triggerName} />}
+          {whichBtnClick === "magnifier" && (
+            <>
+              {triggerSpace.space === "1x1" && (
+                <Canvas_1x1 type={triggerSpace.name} />
+              )}
+              {triggerSpace.space === "1x2" && (
+                <Canvas_1x2 type={triggerSpace.name} />
+              )}
+            </>
+          )}
           {whichBtnClick === "hint" && (
             <div dangerouslySetInnerHTML={{ __html: safeHtml }} />
           )}
