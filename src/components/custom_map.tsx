@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
@@ -15,7 +15,7 @@ interface Location {
 }
 
 // 設定地圖的初始設定
-const position: number[] = [25.011205, 121.537123];
+const position: number[] = [25.047735, 121.577671];
 const zoom = 16;
 const attribution = "來源：國土測繪中心";
 const tileLayerUrl =
@@ -29,7 +29,7 @@ const customIcon = L.icon({
 });
 
 const fixedLocations: Location[] = [
-  { name: "鼎漢-台北總公司", coords: [25.011205, 121.537123] },
+  { name: "鼎漢-台北總公司", coords: [25.047735, 121.577671] },
   { name: "鼎漢-松二辦公室", coords: [25.047448, 121.577644] },
   { name: "鼎漢-台中分公司", coords: [24.162379, 120.669245] },
   { name: "鼎漢-台南分公司", coords: [22.996921, 120.172551] },
@@ -55,14 +55,14 @@ export default function MapComponent() {
   return (
     <>
       <ItemTitle typeName="map" />
-      <div className="map_wrapper relative h-full flex flex-col gap-4 w-full p-4">
+      <div className="map_wrapper relative p-4 w-full h-full min-w-[200px] flex flex-col gap-4">
         <div className="absolute top-[35px] left-[70px] z-10 flex flex-row gap-2">
           <CustomSelect
             items={fixedLocations}
             setSelectedFunction={setChoosedSelect}
           />
           <button
-            className="px-2 py-1 bg-blue-500 text-white rounded text-xs"
+            className="px-2 py-1 bg-blue-500 text-white rounded text-xs cursor-pointer"
             onClick={() => setCenterPOI(target)}
           >
             <Image src="/icons/locate.png" alt="" width={24} height={24} />

@@ -12,7 +12,7 @@ interface DashboardState {
 const useStore = create<DashboardState>((set) => ({
   allChartTypes: {
     "1x1": ["pie", "bar", "line", "CircleProgress"],
-    "1x2": ["pie"],
+    "1x2": ["pie", "line"],
   },
   spaces: {
     "1x1": ["pie", "bar", "line", "CircleProgress"],

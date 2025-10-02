@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Canvas_1x1 from "@/components/dashboard_canvas_1x1";
-import Canvas_1x2 from "@/components/dashboard_canvas_1x1";
+import Canvas_1x2 from "@/components/dashboard_canvas_1x2";
 
 import chartStore from "@/store/useChartStore";
 import showStore from "@/store/useShowStore";
@@ -53,7 +53,7 @@ export default function SideBar({ isOpen, setIsOpen }: ItemProps) {
               key={index}
               className="sideBar_item cursor-pointer"
               onClick={() => {
-                setChoosedType("1x1", triggerSpace.idx, type);
+                setChoosedType("1x2", triggerSpace.idx, type);
               }}
             >
               <div className="card-layout min-h-[300px] shadow-lg pointer-events-none">

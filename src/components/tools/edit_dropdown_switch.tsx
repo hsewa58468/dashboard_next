@@ -5,7 +5,7 @@ import showStore from "@/store/useShowStore";
 
 interface ItemProps {
   showEditBtn: boolean;
-  editEvent?: () => void;
+  editEvent: () => void;
 }
 
 interface DropProps {
@@ -42,7 +42,13 @@ function Dropdown({ setDropOpen }: DropProps) {
             handleClick("hint");
           }}
         >
-          <Image src="/icons/question.svg" alt="" width={14} height={14} />
+          <Image
+            src="/icons/question.svg"
+            alt=""
+            className="ml-0.5"
+            width={12}
+            height={12}
+          />
           小幫手
         </button>
       </li>
@@ -90,7 +96,7 @@ export default function Edit_ToolBtn({ showEditBtn, editEvent }: ItemProps) {
       className="space-switch-btn"
       onClick={() => {
         setSideBarShow(true);
-        editEvent && editEvent();
+        editEvent();
       }}
     >
       <Image src="/icons/change.png" alt="" width={24} height={24} />

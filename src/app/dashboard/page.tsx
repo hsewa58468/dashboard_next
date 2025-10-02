@@ -58,29 +58,28 @@ export default function Dashboard() {
     setPrintItemRef(divRefs.current[triggerSpace.space][triggerSpace.idx]);
   }, [triggerSpace]);
 
+  // 處理圖片下載觸發
   useEffect(() => {
-    const handleConvertToImage = () => {
-      // 檢查 ref 是否存在
-      if (printItemRef && printItemRef.current) {
-        // 使用 html-to-image 的 toPng 方法
-        toPng(printItemRef.current, { cacheBust: true })
-          .then((dataUrl) => {
-            // dataUrl 是一個 base64 格式的圖片字串
-            const link = document.createElement("a");
-            link.download = `${triggerSpace.name}.png`;
-            link.href = dataUrl;
-            link.click();
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        console.log("找不到對應的 DOM 元素。請先選擇一個項目。");
-      }
-    };
-    if (whichBtnClick === "download") {
-      handleConvertToImage();
-      setWhichBtnClick("");
+    if (whichBtnClick !== "download") return;
+    // 檢查 ref 是否存在
+    if (printItemRef?.current) {
+      // 使用 html-to-image 的 toPng 方法
+      toPng(printItemRef.current, { cacheBust: true })
+        .then((dataUrl) => {
+          // dataUrl 是一個 base64 格式的圖片字串
+          const link = document.createElement("a");
+          link.download = `${triggerSpace.name}.png`;
+          link.href = dataUrl;
+          link.click();
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setWhichBtnClick("");
+        });
+    } else {
+      console.log("找不到對應的 DOM 元素。請先選擇一個項目。");
     }
   }, [whichBtnClick]);
 
@@ -92,7 +91,7 @@ export default function Dashboard() {
   }, [showEditBtn]);
 
   return (
-    <main className="main_wrapper h-[calc(100vh-95px)] grid grid-cols-6 grid-rows-3 gap-4 p-8 text-black">
+    <main className="main_wrapper h-[calc(100vh-105px)] min-w-[1280px] grid grid-cols-6 grid-rows-3 gap-4 p-8 text-black">
       {spaces["1x1"].map((item, idx) => (
         <div
           ref={(el) => setDivRef(el, "1x1", idx)}
@@ -110,18 +109,21 @@ export default function Dashboard() {
       ))}
 
       {/* 左下 1 個 1x2 區塊（橫跨 2 欄）*/}
-      <div
-        ref={(el) => setDivRef(el, "1x2", 0)}
-        className="card-layout pt-[45px] col-start-1 col-span-2 row-start-3 bg-gray-200"
-      >
-        <Edit_ToolBtn
-          showEditBtn={showEditBtn}
-          editEvent={() => {
-            setTriggerSpace({ space: "1x2", idx: 0, name: "pie" });
-          }}
-        />
-        <Canvas_1x2 type="pie" />
-      </div>
+      {spaces["1x2"].map((item, idx) => (
+        <div
+          ref={(el) => setDivRef(el, "1x2", idx)}
+          key={idx}
+          className="card-layout pt-[45px] col-start-1 col-span-2 row-start-3 bg-gray-200"
+        >
+          <Edit_ToolBtn
+            showEditBtn={showEditBtn}
+            editEvent={() => {
+              setTriggerSpace({ space: "1x2", idx: idx, name: item });
+            }}
+          />
+          <Canvas_1x2 type={item} />
+        </div>
+      ))}
 
       <div className="card-layout col-start-3 col-span-2 row-start-1 row-span-3 bg-blue-200">
         <DynamicMap />
