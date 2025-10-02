@@ -39,7 +39,7 @@ const pieData = {
   labels: ["蘋果", "香蕉", "葡萄", "荔枝", "芒果", "西瓜", "鳳梨", "橘子"],
   datasets: [
     {
-      radius: "80%",
+      radius: "70%",
       data: [20, 15, 11, 13, 3, 9, 10, 11],
       backgroundColor: [
         "#3b82f6",
@@ -123,8 +123,8 @@ const lineOptions = {
 function pieChart() {
   return (
     <>
-      <ItemTitle type="pie" />
-      <div className="w-4/5 h-auto px-4">
+      <ItemTitle typeName="pie" />
+      <div className="w-4/5 h-auto">
         <Pie data={pieData} options={pieOptions} />
       </div>
       {/* <div className="legend-container scrollbar-custom max-h-[90px] overflow-y-auto flex flex-row flex-wrap mx-auto pl-5 gap-1 x15:block x15:p-0">
@@ -146,7 +146,7 @@ function pieChart() {
 function barChart() {
   return (
     <>
-      <ItemTitle type="bar" />
+      <ItemTitle typeName="bar" />
       <Bar
         data={barData}
         style={{ width: 100, height: 100 }}
@@ -158,7 +158,7 @@ function barChart() {
 function lineChart() {
   return (
     <>
-      <ItemTitle type="line" />
+      <ItemTitle typeName="line" />
       <Line
         data={lineData}
         options={lineOptions}
@@ -170,13 +170,13 @@ function lineChart() {
 function circleProgressChart() {
   return (
     <>
-      <ItemTitle type="CircleProgress" />
+      <ItemTitle typeName="CircleProgress" />
       <CircleProgress
         percent={75}
         size={150}
         strokeWidth={12}
         gradient={["#3b82f6", "#10b981"]}
-        className="shadow-lg rounded-full"
+        className="shadow-lg rounded-full max-w-full"
         duration={500}
       />
     </>

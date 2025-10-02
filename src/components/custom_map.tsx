@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L, { LatLngExpression } from "leaflet";
@@ -54,15 +54,15 @@ export default function MapComponent() {
 
   return (
     <>
-      <ItemTitle type="map" />
-      <div className="map_wrapper relative h-full flex flex-col gap-4 w-full p-4">
+      <ItemTitle typeName="map" />
+      <div className="map_wrapper relative p-4 w-full h-full min-w-[200px] flex flex-col gap-4">
         <div className="absolute top-[35px] left-[70px] z-10 flex flex-row gap-2">
           <CustomSelect
             items={fixedLocations}
             setSelectedFunction={setChoosedSelect}
           />
           <button
-            className="px-2 py-1 bg-blue-500 text-white rounded text-xs"
+            className="px-2 py-1 bg-blue-500 text-white rounded text-xs cursor-pointer"
             onClick={() => setCenterPOI(target)}
           >
             <Image src="/icons/locate.png" alt="" width={24} height={24} />

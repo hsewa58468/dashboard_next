@@ -41,13 +41,22 @@ body {
 }
 
 .card-layout {
-  @apply relative h-auto pt-[45px] flex flex-col items-center justify-center rounded-lg overflow-hidden;
+  @apply relative h-auto pt-[45px] flex flex-col items-center justify-center rounded-lg;
 }
 .animate-300 {
   @apply transition-all duration-300;
 }
 .space-switch-btn {
   @apply absolute top-2 right-2 px-2 py-1 cursor-pointer z-1;
+}
+.fixed-center {
+  @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
+
+/* SVG 改色  */
+.invert-white {
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%)
+    contrast(100%);
 }
 
 @theme {
